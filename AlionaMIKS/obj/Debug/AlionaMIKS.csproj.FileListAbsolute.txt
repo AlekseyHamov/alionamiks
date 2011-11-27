@@ -1,0 +1,5 @@
+D:\Aleksey\Web\AlionaMIKS\AlionaMIKS\bin\AlionaMIKS.dll
+D:\Aleksey\Web\AlionaMIKS\AlionaMIKS\bin\AlionaMIKS.pdb
+D:\Aleksey\Web\AlionaMIKS\AlionaMIKS\obj\Debug\ResolveAssemblyReference.cache
+D:\Aleksey\Web\AlionaMIKS\AlionaMIKS\obj\Debug\AlionaMIKS.dll
+D:\Aleksey\Web\AlionaMIKS\AlionaMIKS\obj\Debug\AlionaMIKS.pdb
