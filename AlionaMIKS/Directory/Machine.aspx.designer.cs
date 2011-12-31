@@ -10,7 +10,7 @@
 namespace AlionaMIKS.Directory {
     
     
-    public partial class Otdelen {
+    public partial class Machine {
         
         /// <summary>
         /// ScriptManager1 элемент управления.
@@ -31,31 +31,22 @@ namespace AlionaMIKS.Directory {
         protected global::System.Web.UI.WebControls.Label Msg;
         
         /// <summary>
-        /// OtdelenObjectDataSource элемент управления.
+        /// MachineObjectDataSource элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource OtdelenObjectDataSource;
+        protected global::System.Web.UI.WebControls.ObjectDataSource MachineObjectDataSource;
         
         /// <summary>
-        /// OtdelenObjectDataSourceOneRow элемент управления.
+        /// ObjectDataTempGrig элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource OtdelenObjectDataSourceOneRow;
-        
-        /// <summary>
-        /// BuildingObjectDataSource элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource BuildingObjectDataSource;
+        protected global::System.Web.UI.WebControls.ObjectDataSource ObjectDataTempGrig;
         
         /// <summary>
         /// ImageObjectDataSource элемент управления.
@@ -67,13 +58,13 @@ namespace AlionaMIKS.Directory {
         protected global::System.Web.UI.WebControls.ObjectDataSource ImageObjectDataSource;
         
         /// <summary>
-        /// ObjectDataTempGrig элемент управления.
+        /// ObjectDataSource1 элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource ObjectDataTempGrig;
+        protected global::System.Web.UI.WebControls.ObjectDataSource ObjectDataSource1;
         
         /// <summary>
         /// ImageFilesObjectDataSource элемент управления.
@@ -94,40 +85,13 @@ namespace AlionaMIKS.Directory {
         protected global::System.Web.UI.WebControls.ObjectDataSource FileCoordimateDataSource;
         
         /// <summary>
-        /// FiltrBuilding элемент управления.
+        /// MachineGridView элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList FiltrBuilding;
-        
-        /// <summary>
-        /// Button5 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button5;
-        
-        /// <summary>
-        /// FilterClear элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox FilterClear;
-        
-        /// <summary>
-        /// OtdelenGridView элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView OtdelenGridView;
+        protected global::System.Web.UI.WebControls.GridView MachineGridView;
         
         /// <summary>
         /// btnEditCustomer элемент управления.
@@ -139,13 +103,13 @@ namespace AlionaMIKS.Directory {
         protected global::System.Web.UI.WebControls.Button btnEditCustomer;
         
         /// <summary>
-        /// UpdateOtdelenPanel элемент управления.
+        /// UpdatePanel элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel UpdateOtdelenPanel;
+        protected global::System.Web.UI.WebControls.Panel UpdatePanel;
         
         /// <summary>
         /// Label3 элемент управления.
@@ -182,42 +146,6 @@ namespace AlionaMIKS.Directory {
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBox2;
-        
-        /// <summary>
-        /// Label2 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
-        
-        /// <summary>
-        /// BuildingList элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList BuildingList;
-        
-        /// <summary>
-        /// Label4 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label4;
-        
-        /// <summary>
-        /// Floor элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Floor;
         
         /// <summary>
         /// ImageDiv элемент управления.
@@ -418,15 +346,6 @@ namespace AlionaMIKS.Directory {
         protected global::System.Web.UI.WebControls.Label Coordin;
         
         /// <summary>
-        /// UpdatePan элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DetailsView UpdatePan;
-        
-        /// <summary>
         /// aliona элемент управления.
         /// </summary>
         /// <remarks>
@@ -454,13 +373,13 @@ namespace AlionaMIKS.Directory {
         protected global::AjaxControlToolkit.ModalPopupExtender ModalImageMaping;
         
         /// <summary>
-        /// UpdateOtdelenPanel_DragPanelExtender элемент управления.
+        /// UpdatePanel_DragPanelExtender элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::AjaxControlToolkit.DragPanelExtender UpdateOtdelenPanel_DragPanelExtender;
+        protected global::AjaxControlToolkit.DragPanelExtender UpdatePanel_DragPanelExtender;
         
         /// <summary>
         /// MapPage элемент управления.

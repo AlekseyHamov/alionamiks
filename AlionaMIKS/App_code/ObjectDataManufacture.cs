@@ -7,17 +7,17 @@ using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Samples.AspNet.ObjectDataDevice
+namespace Samples.AspNet.ObjectDataManufacture
 {
     //
     //  Northwind Employee Data Factory
     //
 
-    public class DeviceData
+    public class ManufactureData
     {
 
         private string _connectionString;
-        public DeviceData()
+        public ManufactureData()
         {
             Initialize();
         }
@@ -35,35 +35,32 @@ namespace Samples.AspNet.ObjectDataDevice
             _connectionString =
               ConfigurationManager.ConnectionStrings["ApplicationServices"].ConnectionString;
         }
-
-
         // Select all employees.
-
         public DataTable GetAll(string str_ID, string ID_Unit, string sortColumns, int startRecord, int maxRecords)
         {
             VerifySortColumns(sortColumns);
 
-            string sqlCmd = " SELECT distinct Device.ID_Device,Device_list.Device as Parent_ID, Device.NameDevice, Device.Description, Device.ID_Unit, Unit.NameUnit, Device.CheckLog " +
-                " FROM Device "+
-                " Left join Unit on Unit.ID_Unit=Device.ID_Unit " +
-                " Left join Device_list on Device_list.Device_Spares=Device.ID_Device ";
+            string sqlCmd = " SELECT distinct Manufacture.ID_Manufacture,Manufacture_list.Manufacture as Parent_ID, Manufacture.NameManufacture, Manufacture.Description, Manufacture.ID_Unit, Unit.NameUnit, Manufacture.CheckLog " +
+                " FROM Manufacture " +
+                " Left join Unit on Unit.ID_Unit=Manufacture.ID_Unit " +
+                " Left join Manufacture_list on Manufacture_list.Manufacture_Spares=Manufacture.ID_Manufacture ";
 
-            sqlCmd += " where 1=1 "; 
+            sqlCmd += " where 1=1 ";
             try
             {
                 if (str_ID.Trim() != "")
-                { sqlCmd += " and Device.ID_Device in ( " + str_ID + " ) "; }
+                { sqlCmd += " and Manufacture.ID_Manufacture in ( " + str_ID + " ) "; }
             }
             catch { }
             try
             {
                 if (ID_Unit.Trim() != "")
-                { sqlCmd += " and Device.ID_Unit=" + ID_Unit + " "; }
+                { sqlCmd += " and Manufacture.ID_Unit=" + ID_Unit + " "; }
             }
             catch { }
 
             if (sortColumns.Trim() == "")
-                sqlCmd += "ORDER BY Device.ID_Device DESC ";
+                sqlCmd += "ORDER BY Manufacture.ID_Manufacture DESC ";
             else
                 sqlCmd += "ORDER BY " + sortColumns;
 
@@ -74,7 +71,7 @@ namespace Samples.AspNet.ObjectDataDevice
             try
             {
                 conn.Open();
-                da.Fill(ds, startRecord, maxRecords, "Device");
+                da.Fill(ds, startRecord, maxRecords, "Manufacture");
             }
             catch (SqlException e)
             {
@@ -85,8 +82,54 @@ namespace Samples.AspNet.ObjectDataDevice
                 conn.Close();
             }
 
-            return ds.Tables["Device"];
-            
+            return ds.Tables["Manufacture"];
+
+        }
+        public DataTable GetAllImage(string str_ID, string ID_Unit)
+        {
+            string sqlCmd = " SELECT distinct Manufacture.ID_Manufacture,Manufacture_list.Manufacture as Parent_ID, " +
+                " Manufacture.NameManufacture, Manufacture.Description, Manufacture.ID_Unit, Unit.NameUnit, Manufacture.CheckLog, " +
+                " fr.ID, fr.ID_files, fr.ID_Table, fr.NameTable, f.fileName, f.fileType " +
+                " FROM Manufacture " +
+                " Left join FilesRelation as fr on fr.NameTable ='Manufacture' and fr.ID_Table=Manufacture.ID_Manufacture " +
+                " Left join Files as f on f.ID=fr.ID_files " +
+                " Left join Unit on Unit.ID_Unit=Manufacture.ID_Unit " +
+                " Left join Manufacture_list on Manufacture_list.Manufacture_Spares=Manufacture.ID_Manufacture ";
+
+            sqlCmd += " where 1=1 and Manufacture_list.Manufacture is null ";
+            try
+            {
+                if (str_ID.Trim() != "")
+                { sqlCmd += " and Manufacture.ID_Manufacture in ( " + str_ID + " ) "; }
+            }
+            catch { }
+            try
+            {
+                if (ID_Unit.Trim() != "")
+                { sqlCmd += " and Manufacture.ID_Unit=" + ID_Unit + " "; }
+            }
+            catch { }
+
+            SqlConnection conn = new SqlConnection(_connectionString);
+            SqlDataAdapter da = new SqlDataAdapter(sqlCmd, conn);
+
+            DataSet ds = new DataSet();
+            try
+            {
+                conn.Open();
+                da.Fill(ds, "Manufacture");
+            }
+            catch (SqlException e)
+            {
+                // Handle exception.
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds.Tables["Manufacture"];
+
         }
         public DataTable GetView()
         {
@@ -101,7 +144,7 @@ namespace Samples.AspNet.ObjectDataDevice
             {
                 conn.Open();
 
-                da.Fill(ds, "Device");
+                da.Fill(ds, "Manufacture");
             }
             catch (SqlException e)
             {
@@ -112,26 +155,26 @@ namespace Samples.AspNet.ObjectDataDevice
                 conn.Close();
             }
 
-            return ds.Tables["Device"];
+            return ds.Tables["Manufacture"];
 
         }
-        public DataTable GetForCheck(int ID_Device_Spares)
+        public DataTable GetForCheck(int ID_Manufacture_Spares)
         {
-            string sqlCmd = " Select dv_l.ID_DV_List, dv.NameDevice, dv_l.Device from Device_list as dv_l "+
-                            "Left Join Device as dv on dv.ID_Device=dv_l.Device "+
-                            "Left Join Device as dv_s on dv_s.ID_Device=dv_l.Device_Spares "+
-                            "Where dv_l.Device is not null and dv_l.Device_Spares = @ID_Device_Spares ";
+            string sqlCmd = " Select dv_l.ID_DV_List, dv.NameManufacture, dv_l.Manufacture from Manufacture_list as dv_l " +
+                            "Left Join Manufacture as dv on dv.ID_Manufacture=dv_l.Manufacture " +
+                            "Left Join Manufacture as dv_s on dv_s.ID_Manufacture=dv_l.Manufacture_Spares " +
+                            "Where dv_l.Manufacture is not null and dv_l.Manufacture_Spares = @ID_Manufacture_Spares ";
 
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlDataAdapter da = new SqlDataAdapter(sqlCmd, conn);
-            da.SelectCommand.Parameters.Add("@ID_Device_Spares", SqlDbType.Int).Value = ID_Device_Spares;
-            
+            da.SelectCommand.Parameters.Add("@ID_Manufacture_Spares", SqlDbType.Int).Value = ID_Manufacture_Spares;
+
             DataSet ds = new DataSet();
 
             try
             {
                 conn.Open();
-                da.Fill(ds, "Device");
+                da.Fill(ds, "Manufacture");
             }
             catch (SqlException e)
             {
@@ -142,30 +185,30 @@ namespace Samples.AspNet.ObjectDataDevice
                 conn.Close();
             }
 
-            return ds.Tables["Device"];
+            return ds.Tables["Manufacture"];
 
         }
         public int SelectCount(string str_ID, string ID_Unit)
         {
 
             string sqlCmd = "";
-                sqlCmd = "SELECT COUNT(*) FROM Device ";
-                sqlCmd += " where 1=1 ";
-                try
-                {
-                    if (str_ID.Trim() != "")
-                    { sqlCmd += " and Device.ID_Device in ( " + str_ID + " ) "; }
-                }
-                catch { }
-                try
-                {
-                    if (ID_Unit.Trim() != "")
-                    { sqlCmd += " and Device.ID_Unit=" + ID_Unit + " "; }
-                }
-                catch { }
+            sqlCmd = "SELECT COUNT(*) FROM Manufacture ";
+            sqlCmd += " where 1=1 ";
+            try
+            {
+                if (str_ID.Trim() != "")
+                { sqlCmd += " and Manufacture.ID_Manufacture in ( " + str_ID + " ) "; }
+            }
+            catch { }
+            try
+            {
+                if (ID_Unit.Trim() != "")
+                { sqlCmd += " and Manufacture.ID_Unit=" + ID_Unit + " "; }
+            }
+            catch { }
 
             SqlConnection conn = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand(sqlCmd , conn);
+            SqlCommand cmd = new SqlCommand(sqlCmd, conn);
 
             int result = 0;
 
@@ -199,9 +242,9 @@ namespace Samples.AspNet.ObjectDataDevice
             {
                 switch (columnName.Trim().ToLowerInvariant())
                 {
-                    case "id_device":
+                    case "id_Manufacture":
                         break;
-                    case "namedevice":
+                    case "nameManufacture":
                         break;
                     case "":
                         break;
@@ -211,15 +254,15 @@ namespace Samples.AspNet.ObjectDataDevice
                 }
             }
         }
-   
+
         // Select an Otdelen.
-        public DataTable GetOneRecord(int ID_Device)
+        public DataTable GetOneRecord(int ID_Manufacture)
         {
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlDataAdapter da =
-              new SqlDataAdapter("SELECT ID_Device, NameDevice, Description, ID_Unit " +
-                                 "  FROM Device WHERE ID_Device = @ID_Device", conn);
-            da.SelectCommand.Parameters.Add("@ID_Device", SqlDbType.Int).Value = ID_Device;
+              new SqlDataAdapter("SELECT ID_Manufacture, NameManufacture, Description, ID_Unit " +
+                                 "  FROM Manufacture WHERE ID_Manufacture = @ID_Manufacture", conn);
+            da.SelectCommand.Parameters.Add("@ID_Manufacture", SqlDbType.Int).Value = ID_Manufacture;
 
             DataSet ds = new DataSet();
 
@@ -227,7 +270,7 @@ namespace Samples.AspNet.ObjectDataDevice
             {
                 conn.Open();
 
-                da.Fill(ds, "Device");
+                da.Fill(ds, "Manufacture");
             }
             catch (SqlException e)
             {
@@ -238,15 +281,15 @@ namespace Samples.AspNet.ObjectDataDevice
                 conn.Close();
             }
 
-            return ds.Tables["Device"];
+            return ds.Tables["Manufacture"];
         }
 
         // Delete the Otdelen by ID_Room.
-        public int DeleteRecord(int ID_Device)
+        public int DeleteRecord(int ID_Manufacture, DBNull  Parent_ID)
         {
             SqlConnection conn = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("DELETE FROM Device WHERE ID_Device = @ID_Device", conn);
-            cmd.Parameters.Add("@ID_Device", SqlDbType.Int).Value = ID_Device;
+            SqlCommand cmd = new SqlCommand("DELETE FROM Manufacture WHERE ID_Manufacture = @ID_Manufacture", conn);
+            cmd.Parameters.Add("@ID_Manufacture", SqlDbType.Int).Value = ID_Manufacture;
             int result = 0;
 
             try
@@ -266,23 +309,21 @@ namespace Samples.AspNet.ObjectDataDevice
 
             return result;
         }
-
-
         // Update the Otdelen by original ID_Otdelen.
-        public int UpdateRecord(int ID_Device, string NameDevice, string Description, int ID_Unit)
+        public int UpdateRecord(int ID_Manufacture, string NameManufacture, string Description, int ID_Unit)
         {
-            if (String.IsNullOrEmpty(NameDevice))
+            if (String.IsNullOrEmpty(NameManufacture))
                 throw new ArgumentException("Необходимо заполнять поле Наименование комнаты");
 
             SqlConnection conn = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("UPDATE Device " +
-                                                "  SET NameDevice=@NameDevice, Description=@Description, ID_Unit=@ID_Unit " +
-                                                 "  WHERE ID_Device=@ID_Device ", conn);
+            SqlCommand cmd = new SqlCommand("UPDATE Manufacture " +
+                                                "  SET NameManufacture=@NameManufacture, Description=@Description, ID_Unit=@ID_Unit " +
+                                                 "  WHERE ID_Manufacture=@ID_Manufacture ", conn);
 
-            cmd.Parameters.Add("@NameDevice", SqlDbType.VarChar, 50).Value = NameDevice;
+            cmd.Parameters.Add("@NameManufacture", SqlDbType.VarChar, 50).Value = NameManufacture;
             cmd.Parameters.Add("@Description", SqlDbType.VarChar, 50).Value = Description;
             cmd.Parameters.Add("@ID_Unit", SqlDbType.Int).Value = ID_Unit;
-            cmd.Parameters.Add("@ID_Device", SqlDbType.Int).Value = ID_Device;
+            cmd.Parameters.Add("@ID_Manufacture", SqlDbType.Int).Value = ID_Manufacture;
             int result = 0;
 
             try
@@ -302,18 +343,18 @@ namespace Samples.AspNet.ObjectDataDevice
 
             return result;
         }
-        public int UpdateRecord_Device_list(int ID_Device, int ID_NewDevice)
+        public int UpdateRecord_Manufacture_list(int ID_Manufacture, int ID_NewManufacture)
         {
-           // if (Int.IsNullOrEmpty(ID_NewDevice))
-           //     throw new ArgumentException("Новая запись не создана");
+            // if (Int.IsNullOrEmpty(ID_NewManufacture))
+            //     throw new ArgumentException("Новая запись не создана");
 
             SqlConnection conn = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("UPDATE Device_list " +
-                                                "  SET Device=@ID_NewDevice " +
-                                                 "  WHERE Device_Spares=@ID_Device ", conn);
+            SqlCommand cmd = new SqlCommand("UPDATE Manufacture_list " +
+                                                "  SET Manufacture=@ID_NewManufacture " +
+                                                 "  WHERE Manufacture_Spares=@ID_Manufacture ", conn);
 
-            cmd.Parameters.Add("@ID_NewDevice", SqlDbType.Int).Value = ID_NewDevice;
-            cmd.Parameters.Add("@ID_Device", SqlDbType.Int).Value = ID_Device;
+            cmd.Parameters.Add("@ID_NewManufacture", SqlDbType.Int).Value = ID_NewManufacture;
+            cmd.Parameters.Add("@ID_Manufacture", SqlDbType.Int).Value = ID_Manufacture;
             int result = 0;
 
             try
@@ -333,18 +374,18 @@ namespace Samples.AspNet.ObjectDataDevice
 
             return result;
         }
-        public int InsertRecord_Device_list(int ID_Device, int ID_NewDevice)
+        public int InsertRecord_Manufacture_list(int ID_Manufacture, int ID_NewManufacture)
         {
-            //if (String.IsNullOrEmpty(NameDevice))
+            //if (String.IsNullOrEmpty(NameManufacture))
             //    throw new ArgumentException("NameRoom cannot be null or an empty string.");
 
             SqlConnection conn = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("INSERT INTO Device_list " +
-                                                "  (Device,Device_Spares) " +
-                                                "  Values(@ID_NewDevice, @ID_Device); " +
+            SqlCommand cmd = new SqlCommand("INSERT INTO Manufacture_list " +
+                                                "  (Manufacture,Manufacture_Spares) " +
+                                                "  Values(@ID_NewManufacture, @ID_Manufacture); " +
                                                 "SELECT @ID_DV_List = SCOPE_IDENTITY()", conn);
-            cmd.Parameters.Add("@ID_Device", SqlDbType.Int).Value = ID_Device;
-            cmd.Parameters.Add("@ID_NewDevice", SqlDbType.Int).Value = ID_NewDevice;
+            cmd.Parameters.Add("@ID_Manufacture", SqlDbType.Int).Value = ID_Manufacture;
+            cmd.Parameters.Add("@ID_NewManufacture", SqlDbType.Int).Value = ID_NewManufacture;
             SqlParameter p = cmd.Parameters.Add("@ID_DV_List", SqlDbType.Int);
             p.Direction = ParameterDirection.Output;
 
@@ -369,17 +410,17 @@ namespace Samples.AspNet.ObjectDataDevice
 
             return newID_DV_List;
         }
-        public int DeleteRecord_Device_list(int ID_Device, int ID_NewDevice)
+        public int DeleteRecord_Manufacture_list(int ID_Manufacture, int ID_NewManufacture)
         {
-            
+
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = conn;
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "SP_Delete_Device_list";
-            cmd.Parameters.Add("@Device_Spares", SqlDbType.Int).Value = ID_NewDevice;
-            cmd.Parameters.Add("@Device", SqlDbType.Int).Value = ID_Device;
-           int result = 0;
+            cmd.CommandText = "SP_Delete_Manufacture_list";
+            cmd.Parameters.Add("@Manufacture_Spares", SqlDbType.Int).Value = ID_NewManufacture;
+            cmd.Parameters.Add("@Manufacture", SqlDbType.Int).Value = ID_Manufacture;
+            int result = 0;
             try
             {
                 conn.Open();
@@ -398,25 +439,24 @@ namespace Samples.AspNet.ObjectDataDevice
         }
 
         // Insert an Otdelen.
-        public int InsertRecord(string NameDevice, string Description, int ID_Unit)
-
+        public int InsertRecord(string NameManufacture, string Description, int ID_Unit)
         {
-            if (String.IsNullOrEmpty(NameDevice))
+            if (String.IsNullOrEmpty(NameManufacture))
                 throw new ArgumentException("NameRoom cannot be null or an empty string.");
 
             SqlConnection conn = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("INSERT INTO Device " +
-                                                "  (NameDevice,Description, ID_unit) " +
-                                                "  Values(@NameDevice, @Description, @ID_Unit); " +
-                                                "SELECT @ID_Device = SCOPE_IDENTITY()", conn);
+            SqlCommand cmd = new SqlCommand("INSERT INTO Manufacture " +
+                                                "  (NameManufacture,Description, ID_unit) " +
+                                                "  Values(@NameManufacture, @Description, @ID_Unit); " +
+                                                "SELECT @ID_Manufacture = SCOPE_IDENTITY()", conn);
 
-            cmd.Parameters.Add("@NameDevice", SqlDbType.VarChar, 50).Value = NameDevice;
+            cmd.Parameters.Add("@NameManufacture", SqlDbType.VarChar, 50).Value = NameManufacture;
             cmd.Parameters.Add("@ID_Unit", SqlDbType.Int).Value = ID_Unit;
             cmd.Parameters.Add("@Description", SqlDbType.VarChar, 200).Value = Description;
-            SqlParameter p = cmd.Parameters.Add("@ID_Device", SqlDbType.Int);
+            SqlParameter p = cmd.Parameters.Add("@ID_Manufacture", SqlDbType.Int);
             p.Direction = ParameterDirection.Output;
 
-            int newID_Device = 0;
+            int newID_Manufacture = 0;
 
             try
             {
@@ -424,7 +464,7 @@ namespace Samples.AspNet.ObjectDataDevice
 
                 cmd.ExecuteNonQuery();
 
-                newID_Device = (int)p.Value;
+                newID_Manufacture = (int)p.Value;
             }
             catch (SqlException e)
             {
@@ -435,30 +475,29 @@ namespace Samples.AspNet.ObjectDataDevice
                 conn.Close();
             }
 
-            return newID_Device;
+            return newID_Manufacture;
         }
-           
+
         //
         // Methods that support Optimistic Concurrency checks.
         //
 
         // Delete the Otdelen by ID_Room.
-
-        public int DeleteRecord(string NameDevice, string Description, int original_ID,
-                                string original_NameDevice, string original_Description)
+        public int DeleteRecord(string NameManufacture, string Description, int original_ID, int Parent_id,
+                                string original_NameManufacture, string original_Description, int original_Parent_id)
         {
-            if (String.IsNullOrEmpty(original_NameDevice))
+            if (String.IsNullOrEmpty(original_NameManufacture))
                 throw new ArgumentException("FirstName cannot be null or an empty string.");
 
-            string sqlCmd = "DELETE FROM Device WHERE ID_Device = @original_ID " +
-                            " AND NameDevice = @original_NameDevice ";
+            string sqlCmd = "DELETE FROM Manufacture WHERE ID_Manufacture = @original_ID " +
+                            " AND NameManufacture = @original_NameManufacture ";
 
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand(sqlCmd, conn);
 
-            cmd.Parameters.Add("@NameDevice", SqlDbType.VarChar, 50).Value = NameDevice;
+            cmd.Parameters.Add("@NameManufacture", SqlDbType.VarChar, 50).Value = NameManufacture;
             cmd.Parameters.Add("@original_ID", SqlDbType.Int).Value = original_ID;
-            cmd.Parameters.Add("@original_NameDevice", SqlDbType.VarChar, 10).Value = original_NameDevice;
+            cmd.Parameters.Add("@original_NameManufacture", SqlDbType.VarChar, 10).Value = original_NameManufacture;
 
             int result = 0;
 
@@ -481,24 +520,24 @@ namespace Samples.AspNet.ObjectDataDevice
         }
         // Update the Employee by original ID_Room.
 
-        public int UpdateRecord(string NameDevice, string Description
-                                , string original_NameDevice, int original_ID_Device, string original_Description)
+        public int UpdateRecord(string NameManufacture, string Description
+                                , string original_NameManufacture, int original_ID_Manufacture, string original_Description)
         {
-            if (String.IsNullOrEmpty(NameDevice))
+            if (String.IsNullOrEmpty(NameManufacture))
                 throw new ArgumentException("Необходимо заполнить поле Наименование комнаты.");
 
-            string sqlCmd = "UPDATE Device " +
-                            "  SET NameDevice = @NameDevice , Description=@Description  " +
-                            "  WHERE ID_Device = @original_ID_Device " +
-                            " AND NameDevice = @original_NameDevice";
+            string sqlCmd = "UPDATE Manufacture " +
+                            "  SET NameManufacture = @NameManufacture , Description=@Description  " +
+                            "  WHERE ID_Manufacture = @original_ID_Manufacture " +
+                            " AND NameManufacture = @original_NameManufacture";
 
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand(sqlCmd, conn);
 
-            cmd.Parameters.Add("@NameDevice", SqlDbType.VarChar, 50).Value = NameDevice;
+            cmd.Parameters.Add("@NameManufacture", SqlDbType.VarChar, 50).Value = NameManufacture;
             cmd.Parameters.Add("@Description", SqlDbType.VarChar, 200).Value = Description;
-            cmd.Parameters.Add("@original_ID_Device", SqlDbType.Int).Value = original_ID_Device;
-            cmd.Parameters.Add("@original_NameDevice", SqlDbType.VarChar, 50).Value = original_NameDevice;
+            cmd.Parameters.Add("@original_ID_Manufacture", SqlDbType.Int).Value = original_ID_Manufacture;
+            cmd.Parameters.Add("@original_NameManufacture", SqlDbType.VarChar, 50).Value = original_NameManufacture;
             cmd.Parameters.Add("@original_Description", SqlDbType.VarChar, 200).Value = original_Description;
 
             int result = 0;
@@ -520,6 +559,6 @@ namespace Samples.AspNet.ObjectDataDevice
 
             return result;
         }
-        
+
     }
 }

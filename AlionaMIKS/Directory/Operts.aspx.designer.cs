@@ -10,7 +10,7 @@
 namespace AlionaMIKS.Directory {
     
     
-    public partial class Test {
+    public partial class Operts {
         
         /// <summary>
         /// ScriptManager1 элемент управления.
@@ -22,24 +22,6 @@ namespace AlionaMIKS.Directory {
         protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
-        /// TreeDevice элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource TreeDevice;
-        
-        /// <summary>
-        /// DeviceObjectDataSource элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource DeviceObjectDataSource;
-        
-        /// <summary>
         /// Msg элемент управления.
         /// </summary>
         /// <remarks>
@@ -49,22 +31,31 @@ namespace AlionaMIKS.Directory {
         protected global::System.Web.UI.WebControls.Label Msg;
         
         /// <summary>
-        /// TreeView1 элемент управления.
+        /// OpertsObjectDataSource элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TreeView TreeView1;
+        protected global::System.Web.UI.WebControls.ObjectDataSource OpertsObjectDataSource;
         
         /// <summary>
-        /// Device элемент управления.
+        /// ObjectDataTempGrig элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView Device;
+        protected global::System.Web.UI.WebControls.ObjectDataSource ObjectDataTempGrig;
+        
+        /// <summary>
+        /// OpertsGridView элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView OpertsGridView;
         
         /// <summary>
         /// btnEditCustomer элемент управления.
@@ -85,42 +76,6 @@ namespace AlionaMIKS.Directory {
         protected global::System.Web.UI.WebControls.Panel UpdatePanel;
         
         /// <summary>
-        /// editBox_OK элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton editBox_OK;
-        
-        /// <summary>
-        /// Labe4 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Labe4;
-        
-        /// <summary>
-        /// Label2 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
-        
-        /// <summary>
-        /// TextBox2 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox2;
-        
-        /// <summary>
         /// Label3 элемент управления.
         /// </summary>
         /// <remarks>
@@ -130,13 +85,31 @@ namespace AlionaMIKS.Directory {
         protected global::System.Web.UI.WebControls.Label Label3;
         
         /// <summary>
-        /// Description элемент управления.
+        /// editBox_OK элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Description;
+        protected global::System.Web.UI.WebControls.ImageButton editBox_OK;
+        
+        /// <summary>
+        /// Label1 элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label1;
+        
+        /// <summary>
+        /// TextBox2 элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBox2;
         
         /// <summary>
         /// UpdateButton элемент управления.
@@ -164,6 +137,15 @@ namespace AlionaMIKS.Directory {
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button DeleteButton;
+        
+        /// <summary>
+        /// aliona элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label aliona;
         
         /// <summary>
         /// ModalPopupExtender1 элемент управления.

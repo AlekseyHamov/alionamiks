@@ -7,16 +7,16 @@ using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Samples.AspNet.ObjectDataTreeDevice
+namespace Samples.AspNet.ObjectDataTreeManufacture
 {
     //
     //  Northwind Employee Data Factory
     //
 
-    public class TreeDeviceData
+    public class TreeManufactureData
     {
         private string _connectionString;
-        public TreeDeviceData()
+        public TreeManufactureData()
         {
             Initialize();
         }
@@ -53,7 +53,7 @@ namespace Samples.AspNet.ObjectDataTreeDevice
             try
             {
                 conn.Open();
-//                da.Fill(ds, "Device");
+//                da.Fill(ds, "Manufacture");
                 da.Fill(dt);
             }
             catch (SqlException e)
@@ -65,7 +65,7 @@ namespace Samples.AspNet.ObjectDataTreeDevice
                 conn.Close();
             }
 
-            //return ds.Tables["Device"];
+            //return ds.Tables["Manufacture"];
             return dt;
         }
         public DataTable GetAllParent(string ID_Unit, int Parent_ID)

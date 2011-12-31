@@ -15,7 +15,7 @@
         <div class="header">
             <div class="title">
                 <h1>
-                    диспетчерская
+                    MIKS-Sotf
                 </h1>
             </div>
             <div class="loginDisplay">
@@ -35,24 +35,18 @@
                     <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
                         <Items>
                             <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Документы" Value="Документы">
-                                <asp:MenuItem NavigateUrl="~/Docs/claim.aspx" Text="Заявка" 
-                                    Value="Заявка"></asp:MenuItem>
-                                <asp:MenuItem NavigateUrl="~/Docs/MapClaim.aspx" Text="Карта-заявка" 
-                                    Value="Карта-заявка"></asp:MenuItem>
+                                <asp:MenuItem NavigateUrl="~/Docs/claim.aspx" Text="Хронометраж" 
+                                    Value="Хронометраж"></asp:MenuItem>
                             </asp:MenuItem>
                             <asp:MenuItem Text="Справочники" Value="Справочники">
-                                <asp:MenuItem NavigateUrl="~/Directory/Otdelen.aspx" Text="Отделения" 
-                                    Value="Отделения"></asp:MenuItem>
-                                <asp:MenuItem NavigateUrl="~/Directory/Building.aspx" 
-                                    Text="Корпус блок строение" Value="Корпус блок строение"></asp:MenuItem>
-                                <asp:MenuItem NavigateUrl="~/Web_test.aspx" Text="Test" Value="Test">
-                                </asp:MenuItem>
-                                <asp:MenuItem NavigateUrl="~/Directory/Room.aspx" Text="Комната" 
-                                    Value="Комната"></asp:MenuItem>
+                                <asp:MenuItem NavigateUrl="~/Directory/Manufacture.aspx" Text="Изделия" 
+                                    Value="Изделия"></asp:MenuItem>
+                                <asp:MenuItem NavigateUrl="~/Directory/Machine.aspx" Text="Машины" 
+                                    Value="Машины"></asp:MenuItem>
+                                <asp:MenuItem NavigateUrl="~/Directory/Operts.aspx" Text="Операции" 
+                                    Value="Операции"></asp:MenuItem>
                                 <asp:MenuItem NavigateUrl="~/Directory/Person.aspx" Text="Сотрудники" 
                                     Value="Сотрудники"></asp:MenuItem>
-                                <asp:MenuItem NavigateUrl="~/Directory/Device.aspx" Text="Устройства" 
-                                    Value="Устройства"></asp:MenuItem>
                             </asp:MenuItem>
                             <asp:MenuItem NavigateUrl="~/About.aspx" Text="О программе"/>
                         </Items>
