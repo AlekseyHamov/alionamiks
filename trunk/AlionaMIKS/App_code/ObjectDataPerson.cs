@@ -196,6 +196,7 @@ namespace Samples.AspNet.ObjectDataPerson
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand("DELETE FROM Person WHERE ID_Person = @ID_Person", conn);
             cmd.Parameters.Add("@ID_Person", SqlDbType.Int).Value = ID_Person;
+
             int result = 0;
 
             try

@@ -59,13 +59,11 @@
     <Content Include="Account\ChangePasswordSuccess.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\Register.aspx" />
-    <Content Include="Directory\Building.aspx" />
-    <Content Include="Directory\Device.aspx" />
-    <Content Include="Directory\Otdelen.aspx" />
+    <Content Include="Directory\Operts.aspx" />
     <Content Include="Directory\Person.aspx" />
-    <Content Include="Directory\Room.aspx" />
-    <Content Include="Directory\Test.aspx" />
     <Content Include="Directory\Unit.aspx" />
+    <Content Include="Directory\Machine.aspx" />
+    <Content Include="Directory\Manufacture.aspx" />
     <Content Include="Docs\claim.aspx" />
     <Content Include="Docs\MapClaim.aspx" />
     <Content Include="Image\calendar.png" />
@@ -134,19 +132,13 @@
     <Compile Include="Account\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
-    <Content Include="App_code\ObjectDataBuilding.cs" />
-    <Content Include="App_code\ObjectDataClaim.cs" />
-    <Content Include="App_code\ObjectDataClaimSparesList.cs" />
-    <Content Include="App_code\ObjectDataDevice.cs" />
+    <Content Include="App_code\ObjectDataOperts.cs" />
     <Content Include="App_code\ObjectDataImage.cs" />
-    <Content Include="App_code\ObjectDataOtdelen.cs" />
     <Content Include="App_code\ObjectDataPerson.cs" />
-    <Content Include="App_code\ObjectDataRoom.cs" />
-    <Content Include="App_code\ObjectDataRoomDeviceList.cs" />
-    <Content Include="App_code\ObjectDataSource.cs" />
-    <Content Include="App_code\ObjectDataSpares .cs" />
-    <Content Include="App_code\ObjectDataTreeDevice.cs" />
+    <Content Include="App_code\ObjectDataTreeManufacture.cs" />
     <Content Include="App_code\ObjectDataUnit.cs" />
+    <Content Include="App_code\ObjectDataMachine.cs" />
+    <Content Include="App_code\ObjectDataManufacture.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -154,26 +146,12 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Directory\Building.aspx.cs">
-      <DependentUpon>Building.aspx</DependentUpon>
+    <Compile Include="Directory\Operts.aspx.cs">
+      <DependentUpon>Operts.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Directory\Building.aspx.designer.cs">
-      <DependentUpon>Building.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Directory\Device.aspx.cs">
-      <DependentUpon>Device.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Directory\Device.aspx.designer.cs">
-      <DependentUpon>Device.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Directory\Otdelen.aspx.cs">
-      <DependentUpon>Otdelen.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Directory\Otdelen.aspx.designer.cs">
-      <DependentUpon>Otdelen.aspx</DependentUpon>
+    <Compile Include="Directory\Operts.aspx.designer.cs">
+      <DependentUpon>Operts.aspx</DependentUpon>
     </Compile>
     <Compile Include="Directory\Person.aspx.cs">
       <DependentUpon>Person.aspx</DependentUpon>
@@ -182,26 +160,26 @@
     <Compile Include="Directory\Person.aspx.designer.cs">
       <DependentUpon>Person.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Directory\Room.aspx.cs">
-      <DependentUpon>Room.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Directory\Room.aspx.designer.cs">
-      <DependentUpon>Room.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Directory\Test.aspx.cs">
-      <DependentUpon>Test.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Directory\Test.aspx.designer.cs">
-      <DependentUpon>Test.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Directory\Unit.aspx.cs">
       <DependentUpon>Unit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Directory\Unit.aspx.designer.cs">
       <DependentUpon>Unit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Directory\Machine.aspx.cs">
+      <DependentUpon>Machine.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Directory\Machine.aspx.designer.cs">
+      <DependentUpon>Machine.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Directory\Manufacture.aspx.cs">
+      <DependentUpon>Manufacture.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Directory\Manufacture.aspx.designer.cs">
+      <DependentUpon>Manufacture.aspx</DependentUpon>
     </Compile>
     <Compile Include="Docs\claim.aspx.cs">
       <DependentUpon>claim.aspx</DependentUpon>

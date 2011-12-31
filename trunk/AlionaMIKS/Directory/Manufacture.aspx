@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" 
-    CodeBehind="Device.aspx.cs" Inherits="AlionaMIKS.Directory.Device" %>
+    CodeBehind="Manufacture.aspx.cs" Inherits="AlionaMIKS.Directory.Manufacture" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %> 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
@@ -13,15 +13,15 @@
       <h3>Справочник Устройств</h3> 
       <asp:Label id="Msg" runat="server" ForeColor="Red" />
       <asp:ObjectDataSource 
-        ID="TreeDevice" 
+        ID="TreeManufacture" 
         runat="server" 
-        TypeName="Samples.AspNet.ObjectDataTreeDevice.TreeDeviceData"
+        TypeName="Samples.AspNet.ObjectDataTreeManufacture.TreeManufactureData"
         >
       </asp:ObjectDataSource>
       <asp:ObjectDataSource 
-        ID="DeviceObjectDataSource" 
+        ID="ManufactureObjectDataSource" 
         runat="server" 
-        TypeName="Samples.AspNet.ObjectDataDevice.DeviceData" 
+        TypeName="Samples.AspNet.ObjectDataManufacture.ManufactureData" 
         SortParameterName="SortColumns"
         EnablePaging="true"
         SelectCountMethod="SelectCount"
@@ -32,14 +32,13 @@
         InsertMethod="InsertRecord" 
         UpdateMethod="UpdateRecord" 
         OnInserted="DataSource_OnInserted"
-        OnUpdated="DataSource_OnUpdated"
-        OnDeleted="DataSource_OnDeleted" >
+        OnUpdated="DataSource_OnUpdated">
         <SelectParameters>
             <asp:Parameter Name="str_ID" DefaultValue="" />  
             <asp:ControlParameter Name="ID_Unit" ControlID="FiltrRadioUnit" PropertyName="SelectedValue" DefaultValue="" />  
         </SelectParameters> 
         <InsertParameters>
-              <asp:ControlParameter ControlID="TextBox2" Name="NameDevice" 
+              <asp:ControlParameter ControlID="TextBox2" Name="NameManufacture" 
                   PropertyName="Text" />
               <asp:ControlParameter ControlID="Description" Name="Description" 
                   PropertyName="Text" />
@@ -47,11 +46,12 @@
                   PropertyName="SelectedValue" />
         </InsertParameters>
         <deleteparameters>
-            <asp:controlparameter name="ID_Device" controlid="GridDevice" propertyname="SelectedValue" />
+            <asp:controlparameter name="ID_Manufacture" controlid="GridManufacture" propertyname="SelectedValue" />
+            <asp:parameter name="Parent_ID" DefaultValue="0" />
         </deleteparameters>
         <updateparameters>
-            <asp:controlparameter name="ID_Device" controlid="GridDevice" propertyname="SelectedValue" />
-            <asp:ControlParameter ControlID="TextBox2" Name="NameDevice" 
+            <asp:controlparameter name="ID_Manufacture" controlid="GridManufacture" propertyname="SelectedValue" />
+            <asp:ControlParameter ControlID="TextBox2" Name="NameManufacture" 
                   PropertyName="Text" />
               <asp:ControlParameter ControlID="Description" Name="Description" 
                   PropertyName="Text" />
@@ -60,17 +60,17 @@
         </updateparameters>
       </asp:ObjectDataSource>
       <asp:ObjectDataSource 
-        ID="TreeDeviceObjectDataSource" 
+        ID="TreeManufactureObjectDataSource" 
         runat="server" 
-        TypeName="Samples.AspNet.ObjectDataDevice.DeviceData" >
+        TypeName="Samples.AspNet.ObjectDataManufacture.ManufactureData" >
       </asp:ObjectDataSource>
       <asp:ObjectDataSource 
-        ID="CheckDeviceObjectDataSource" 
+        ID="CheckManufactureObjectDataSource" 
         runat="server" 
-        TypeName="Samples.AspNet.ObjectDataDevice.DeviceData" 
+        TypeName="Samples.AspNet.ObjectDataManufacture.ManufactureData" 
         SelectMethod ="GetForCheck">
         <SelectParameters>
-            <asp:controlparameter name="ID_Device_Spares" controlid="GridDevice" propertyname="SelectedValue" />
+            <asp:controlparameter name="ID_Manufacture_Spares" controlid="GridManufacture" propertyname="SelectedValue" />
         </SelectParameters> 
       </asp:ObjectDataSource>
       <asp:ObjectDataSource 
@@ -100,8 +100,8 @@
         SelectMethod="FileRelationList"
         OnDeleted = "ImageDataSource_OnDeleted" >
         <SelectParameters>
-            <asp:Parameter Name="NameTable"  DefaultValue = "Device" />
-            <asp:ControlParameter Name= "ID_Table" ControlID="GridDevice" PropertyName="SelectedValue" DefaultValue="0" />  
+            <asp:Parameter Name="NameTable"  DefaultValue = "Manufacture" />
+            <asp:ControlParameter Name= "ID_Table" ControlID="GridManufacture" PropertyName="SelectedValue" DefaultValue="0" />  
         </SelectParameters> 
         <DeleteParameters>
             <asp:ControlParameter Name= "ID_files" ControlID="LWImage" PropertyName="SelectedValue" DefaultValue="0" />  
@@ -113,8 +113,8 @@
         TypeName="Samples.AspNet.ObjectDataImage.ImageData" 
         SelectMethod="GetTempGrid" >
         <SelectParameters>
-            <asp:Parameter Name= "NameTable" DefaultValue="Device" />  
-            <asp:ControlParameter Name= "ID_Table" ControlID="GridDevice" PropertyName="SelectedValue" DefaultValue="0" />  
+            <asp:Parameter Name= "NameTable" DefaultValue="Manufacture" />  
+            <asp:ControlParameter Name= "ID_Table" ControlID="GridManufacture" PropertyName="SelectedValue" DefaultValue="0" />  
         </SelectParameters> 
       </asp:ObjectDataSource>
       <asp:ObjectDataSource 
@@ -176,13 +176,13 @@
             </asp:TreeView>
           </div>  
           <div>
-            <asp:GridView ID="GridDevice" runat="server" 
-                  DataSourceID="DeviceObjectDataSource" 
+            <asp:GridView ID="GridManufacture" runat="server" 
+                  DataSourceID="ManufactureObjectDataSource" 
                   AutoGenerateColumns="False"
                   AllowSorting="True"
                   AllowPaging="True"
                   PageSize="18"
-                  DataKeyNames="ID_Device,Parent_ID"
+                  DataKeyNames="ID_Manufacture, Parent_ID"
                   OnSelectedIndexChanged="GridView_OnSelectedIndexChanged">
                           <HeaderStyle backcolor="lightblue" forecolor="black"/>
                           <Columns>                
@@ -191,12 +191,12 @@
                                   ImageUrl="~/Image/edit.png" HeaderText="Ред.">  
                               <ControlStyle Height="15px" Width="15px" />
                             </asp:ButtonField>
-                            <asp:BoundField DataField="ID_Device" HeaderText="Номер п/п" 
-                                  SortExpression="ID_Device" Visible="False" />
+                            <asp:BoundField DataField="ID_Manufacture" HeaderText="Номер п/п" 
+                                  SortExpression="ID_Manufacture" Visible="False" />
                             <asp:BoundField 
-                                    DataField="NameDevice"
+                                    DataField="NameManufacture"
                                     HeaderText="Наименование" 
-                                  SortExpression="NameDevice" />
+                                  SortExpression="NameManufacture" />
                             <asp:BoundField 
                                     DataField="Description"
                                     HeaderText="Описание" />
@@ -276,11 +276,24 @@
                         </asp:TreeView>
                     </div>
                     <div style="height:200px; width:auto; overflow:auto">
-                            <asp:CheckBoxList ID="CheckBoxParent" runat="server" DataSourceID="CheckDeviceObjectDataSource"
-                                DataTextField="NameDevice" DataValueField="Device">
+                            <asp:CheckBoxList ID="CheckBoxParent" runat="server" DataSourceID="CheckManufactureObjectDataSource"
+                                DataTextField="NameManufacture" DataValueField="Manufacture">
                             </asp:CheckBoxList>
                     </div>
-                      <div id="ImageDiv" runat="server" style="overflow-y:scroll; text-align:left;">
+                    <table >
+                    <tr>
+                        <td>
+                            <img  alt="" src="../Image/Downarrow.png"  style = " width :10px; height :10px;"
+                            onclick= "document.getElementById('IMGHide').style.display=''" />
+                        </td>
+                        <td>
+                            <img  alt="" src="../Image/Uparrow.png" style = " width :10px; height :10px;" 
+                            onclick= "document.getElementById('IMGHide').style.display='none'" />
+                        </td>
+                    </tr>
+                    <tr id="IMGHide">
+                    <td>
+                      <div id="ImageDiv" runat="server" style="overflow-y:scroll; text-align:left; display:none;">
                       <div style="float:left"> 
                         <asp:GridView ID = "LWImage" runat="server" 
                                     AutoGenerateColumns="false"
@@ -318,13 +331,10 @@
                                     runat="server" Visible="false" OnClick="Image_OnInserted">
                             </asp:Button>
                             <br />
-                            <br />
-                            Привязать к месту на карте
-                            <br />
-                            <asp:Button ID="MapRelation" Text="Привязать" ToolTip="Привязать к месту на карте" 
-                                        runat="server" Visible="true" onclick="MapRelation_Click" >
-                            </asp:Button>
                       </div>
+                    </td>
+                    </tr>
+                    </table>
                 </div>
 
             <asp:RadioButtonList ID="RadioButtonUnit" AppendDataBoundItems="true" runat="server"

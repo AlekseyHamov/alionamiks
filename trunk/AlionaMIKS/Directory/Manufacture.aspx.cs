@@ -8,7 +8,7 @@ using System.IO;
 
 namespace AlionaMIKS.Directory
 {
-    public partial class Device : System.Web.UI.Page
+    public partial class Manufacture : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -23,10 +23,10 @@ namespace AlionaMIKS.Directory
         {
 
             DataTable dt = new DataTable();
-            TreeDevice.SelectMethod = "GetAll";
-            TreeDevice.SelectParameters.Clear();
-            TreeDevice.SelectParameters.Add("ID_Unit", FiltrRadioUnit.SelectedValue);   
-            DataView dv = (DataView)TreeDevice.Select();
+            TreeManufacture.SelectMethod = "GetAll";
+            TreeManufacture.SelectParameters.Clear();
+            TreeManufacture.SelectParameters.Add("ID_Unit", FiltrRadioUnit.SelectedValue);
+            DataView dv = (DataView)TreeManufacture.Select();
 
             dt = dv.Table;
 
@@ -35,11 +35,11 @@ namespace AlionaMIKS.Directory
         private void PopulateSubLevel(int parent_id, TreeNode parentNode)
         {
             DataTable dt = new DataTable();
-            TreeDevice.SelectMethod = "GetAllParent";
-            TreeDevice.SelectParameters.Clear();
-            TreeDevice.SelectParameters.Add("Parent_ID", parent_id.ToString());
-            TreeDevice.SelectParameters.Add("ID_Unit", FiltrRadioUnit.SelectedValue);
-            DataView dv = (DataView)TreeDevice.Select();
+            TreeManufacture.SelectMethod = "GetAllParent";
+            TreeManufacture.SelectParameters.Clear();
+            TreeManufacture.SelectParameters.Add("Parent_ID", parent_id.ToString());
+            TreeManufacture.SelectParameters.Add("ID_Unit", FiltrRadioUnit.SelectedValue);
+            DataView dv = (DataView)TreeManufacture.Select();
             dt = dv.Table;
             PopulateNodes(dt, parentNode.ChildNodes);
         }
@@ -63,25 +63,26 @@ namespace AlionaMIKS.Directory
         protected void Select_Change(Object sender, EventArgs e)
         {
             string str_ID = "";
-            
-            if(TreeView1.SelectedNode.ChildNodes.Count==0)
-            { str_ID=TreeView1.SelectedValue; }
+
+            if (TreeView1.SelectedNode.ChildNodes.Count == 0)
+            { str_ID = TreeView1.SelectedValue; }
             else
             {
-            for (int i = 0; i < TreeView1.SelectedNode.ChildNodes.Count ; i++)
-            { 
-                if (i==0)
+                for (int i = 0; i < TreeView1.SelectedNode.ChildNodes.Count; i++)
                 {
-                    str_ID += TreeView1.SelectedNode.ChildNodes[i].Value;  
-                }else if(i>0)
-                {
-                    str_ID += ", " + TreeView1.SelectedNode.ChildNodes[i].Value;
+                    if (i == 0)
+                    {
+                        str_ID += TreeView1.SelectedNode.ChildNodes[i].Value;
+                    }
+                    else if (i > 0)
+                    {
+                        str_ID += ", " + TreeView1.SelectedNode.ChildNodes[i].Value;
+                    }
                 }
             }
-            }
             str_ID += ", " + TreeView1.SelectedValue.ToString();
-            DeviceObjectDataSource.SelectParameters["str_ID"].DefaultValue = str_ID;
-            GridDevice.DataBind();
+            ManufactureObjectDataSource.SelectParameters["str_ID"].DefaultValue = str_ID;
+            GridManufacture.DataBind();
         }
         protected void Select_Change1(Object sender, TreeNodeEventArgs e)
         {
@@ -99,28 +100,28 @@ namespace AlionaMIKS.Directory
                 }
             }
             str_ID += ", " + TreeView1.SelectedValue.ToString();
-            DeviceObjectDataSource.SelectParameters["str_ID"].DefaultValue = str_ID;
-            GridDevice.DataBind();
+            ManufactureObjectDataSource.SelectParameters["str_ID"].DefaultValue = str_ID;
+            GridManufacture.DataBind();
         }
 
         private void PopulateRootLevel_Update()
         {
             DataTable dt = new DataTable();
-            TreeDevice.SelectMethod = "GetAll";
-            TreeDevice.SelectParameters.Clear();
-            TreeDevice.SelectParameters.Add("ID_Unit", FiltrRadioUnit.SelectedValue);   
-            DataView dv = (DataView)TreeDevice.Select();
+            TreeManufacture.SelectMethod = "GetAll";
+            TreeManufacture.SelectParameters.Clear();
+            TreeManufacture.SelectParameters.Add("ID_Unit", FiltrRadioUnit.SelectedValue);
+            DataView dv = (DataView)TreeManufacture.Select();
             dt = dv.Table;
             PopulateNodes_Update(dt, TreeViewUpdate.Nodes);
         }
         private void PopulateSubLevel_Update(int parent_id, TreeNode parentNode)
         {
             DataTable dt = new DataTable();
-            TreeDevice.SelectMethod = "GetAllParent";
-            TreeDevice.SelectParameters.Clear();
-            TreeDevice.SelectParameters.Add("Parent_ID", parent_id.ToString());
-            TreeDevice.SelectParameters.Add("ID_Unit", FiltrRadioUnit.SelectedValue);
-            DataView dv = (DataView)TreeDevice.Select();
+            TreeManufacture.SelectMethod = "GetAllParent";
+            TreeManufacture.SelectParameters.Clear();
+            TreeManufacture.SelectParameters.Add("Parent_ID", parent_id.ToString());
+            TreeManufacture.SelectParameters.Add("ID_Unit", FiltrRadioUnit.SelectedValue);
+            DataView dv = (DataView)TreeManufacture.Select();
             dt = dv.Table;
             PopulateNodes_Update(dt, parentNode.ChildNodes);
         }
@@ -143,13 +144,13 @@ namespace AlionaMIKS.Directory
 
         private void Selected_Unit()
         {
-                for (int i = 0; i < FiltrRadioUnit.Items.Count; i++)
+            for (int i = 0; i < FiltrRadioUnit.Items.Count; i++)
+            {
+                if (FiltrRadioUnit.Items[i].Selected == true)
                 {
-                    if (FiltrRadioUnit.Items[i].Selected == true)
-                    {
-                        RadioButtonUnit.Items[i].Selected = true;
-                    }
+                    RadioButtonUnit.Items[i].Selected = true;
                 }
+            }
         }
         protected void Button_Click_Insert(object sender, EventArgs e)
         {
@@ -160,23 +161,23 @@ namespace AlionaMIKS.Directory
         protected void Unit_Click_Select(Object sender, EventArgs e)
         {
             Msg.Text = FiltrRadioUnit.SelectedValue;
-            DeviceObjectDataSource.SelectParameters["ID_Unit"].DefaultValue = FiltrRadioUnit.SelectedValue;
-            TreeView1.Nodes.Clear(); 
+            ManufactureObjectDataSource.SelectParameters["ID_Unit"].DefaultValue = FiltrRadioUnit.SelectedValue;
+            TreeView1.Nodes.Clear();
             PopulateRootLevel();
-//            GridDevice.DataBind(); 
+            //            GridManufacture.DataBind(); 
         }
         protected void Button_Click(object sender, EventArgs e)
         {
-            Msg.Text = TreeViewUpdate.Nodes.Count.ToString(); 
+            Msg.Text = TreeViewUpdate.Nodes.Count.ToString();
             if (TreeViewUpdate.CheckedNodes.Count > 0)
             {
                 // Clear the message label.
                 Msg.Text = "You selected:";
-                
+
                 // Iterate through the CheckedNodes collection and display the selected nodes.
                 foreach (TreeNode node in TreeViewUpdate.CheckedNodes)
                 {
-                    Msg.Text += node.Text ;
+                    Msg.Text += node.Text;
                 }
             }
             else
@@ -191,18 +192,16 @@ namespace AlionaMIKS.Directory
             switch (e.CommandName)
             {
                 case "Update":
-                    DeviceObjectDataSource.Update();
+                    ManufactureObjectDataSource.Update();
                     UpdateButton.Visible = false;
                     InsertButton.Visible = true;
                     DeleteButton.Visible = false;
                     break;
                 case "Insert":
-                    DeviceObjectDataSource.Insert();
+                    ManufactureObjectDataSource.Insert();
                     break;
                 case "Delete":
-                    DeviceObjectDataSource.DeleteParameters.Clear();
-                    DeviceObjectDataSource.DeleteParameters.Add("ID_Device", GridDevice.SelectedValue.ToString()); 
-                    DeviceObjectDataSource.Delete();
+                    ManufactureObjectDataSource.Delete();
                     break;
                 case "SelectBuildingID":
                     Msg.Text = "Нажаата кнопка Выбора";
@@ -218,42 +217,43 @@ namespace AlionaMIKS.Directory
         {
             if (FilterClear.Checked == false)
             {
-                DeviceObjectDataSource.FilterExpression = "ID_Unit={0}";
-                DeviceObjectDataSource.FilterParameters.Clear();
-                DeviceObjectDataSource.FilterParameters.Add(new ControlParameter("ID_Unit", "FiltrRadioUnit", "SelectedValue"));
+                ManufactureObjectDataSource.FilterExpression = "ID_Unit={0}";
+                ManufactureObjectDataSource.FilterParameters.Clear();
+                ManufactureObjectDataSource.FilterParameters.Add(new ControlParameter("ID_Unit", "FiltrRadioUnit", "SelectedValue"));
             }
             else
             {
-                DeviceObjectDataSource.FilterParameters.Clear();
+                ManufactureObjectDataSource.FilterParameters.Clear();
             }
         }
         protected void DetailsView_ItemInserted(Object sender, DetailsViewInsertedEventArgs e)
         {
-            //DeviceGridView.DataBind();
+            //ManufactureGridView.DataBind();
         }
         protected void DetailsView_ItemUpdated(Object sender, DetailsViewUpdatedEventArgs e)
         {
-    //        DeviceGridView.DataBind();
+            //        ManufactureGridView.DataBind();
         }
         protected void DetailsView_ItemDeleted(Object sender, DetailsViewDeletedEventArgs e)
         {
-            //DeviceGridView.DataBind();
+            //ManufactureGridView.DataBind();
         }
 
         protected void GridView_OnSelectedIndexChanged(object sender, EventArgs e)
         {
-            CheckDeviceObjectDataSource.SelectParameters["ID_Device_Spares"].DefaultValue = GridDevice.SelectedValue.ToString();    
+
+            CheckManufactureObjectDataSource.SelectParameters["ID_Manufacture_Spares"].DefaultValue = GridManufacture.SelectedValue.ToString();
             CheckBoxParent.DataBind();
             Selected_Unit();
 
             for (int i = 0; i < CheckBoxParent.Items.Count; i++)
             { CheckBoxParent.Items[i].Selected = true; }
 
-            TextBox2.Text = GridDevice.Rows[GridDevice.SelectedIndex].Cells[2].Text;
-            Description.Text = GridDevice.Rows[GridDevice.SelectedIndex].Cells[3].Text;
-            if (TreeViewUpdate.Nodes.Count != TreeView1.Nodes.Count   )
+            TextBox2.Text = GridManufacture.Rows[GridManufacture.SelectedIndex].Cells[2].Text;
+            Description.Text = GridManufacture.Rows[GridManufacture.SelectedIndex].Cells[3].Text;
+            if (TreeViewUpdate.Nodes.Count != TreeView1.Nodes.Count)
             {
-                TreeViewUpdate.Nodes.Clear(); 
+                TreeViewUpdate.Nodes.Clear();
                 PopulateRootLevel_Update();
             }
             else
@@ -281,62 +281,62 @@ namespace AlionaMIKS.Directory
         }
         protected void DataSource_OnInserted(object sender, ObjectDataSourceStatusEventArgs e)
         {
-            string ID_NewDevice;
-            ID_NewDevice = Convert.ToString(e.ReturnValue);
+            string ID_NewManufacture;
+            ID_NewManufacture = Convert.ToString(e.ReturnValue);
             if (TreeViewUpdate.CheckedNodes.Count > 0)
             {
                 Msg.Text = "Цикл TreeViewUpdate.CheckedNodes.Count";
-                for (int i = 0; i < TreeViewUpdate.CheckedNodes.Count; i++ )
+                for (int i = 0; i < TreeViewUpdate.CheckedNodes.Count; i++)
                 {
                     if (i == 0)
                     {
                         Msg.Text = "Update";
-                        TreeDeviceObjectDataSource.UpdateMethod = "UpdateRecord_Device_list";
-                        TreeDeviceObjectDataSource.UpdateParameters.Clear();
-                        TreeDeviceObjectDataSource.UpdateParameters.Add("ID_Device", TreeViewUpdate.CheckedNodes[i].Value);
-                        TreeDeviceObjectDataSource.UpdateParameters.Add("ID_NewDevice", ID_NewDevice);
-                        TreeDeviceObjectDataSource.Update();
+                        TreeManufactureObjectDataSource.UpdateMethod = "UpdateRecord_Manufacture_list";
+                        TreeManufactureObjectDataSource.UpdateParameters.Clear();
+                        TreeManufactureObjectDataSource.UpdateParameters.Add("ID_Manufacture", TreeViewUpdate.CheckedNodes[i].Value);
+                        TreeManufactureObjectDataSource.UpdateParameters.Add("ID_NewManufacture", ID_NewManufacture);
+                        TreeManufactureObjectDataSource.Update();
                     }
                     else
                     {
                         Msg.Text = "iNSEERT";
-                        TreeDeviceObjectDataSource.InsertMethod = "InsertRecord_Device_list";
-                        TreeDeviceObjectDataSource.InsertParameters.Clear();
-                        TreeDeviceObjectDataSource.InsertParameters.Add("ID_Device", TreeViewUpdate.CheckedNodes[i].Value);
-                        TreeDeviceObjectDataSource.InsertParameters.Add("ID_NewDevice", ID_NewDevice);
-                        TreeDeviceObjectDataSource.Insert();
+                        TreeManufactureObjectDataSource.InsertMethod = "InsertRecord_Manufacture_list";
+                        TreeManufactureObjectDataSource.InsertParameters.Clear();
+                        TreeManufactureObjectDataSource.InsertParameters.Add("ID_Manufacture", TreeViewUpdate.CheckedNodes[i].Value);
+                        TreeManufactureObjectDataSource.InsertParameters.Add("ID_NewManufacture", ID_NewManufacture);
+                        TreeManufactureObjectDataSource.Insert();
                     }
                 }
             }
         }
         protected void DataSource_OnUpdated(object sender, ObjectDataSourceStatusEventArgs e)
         {
-            string ID_NewDevice;
-            ID_NewDevice = GridDevice.SelectedValue.ToString();
+            string ID_NewManufacture;
+            ID_NewManufacture = GridManufacture.SelectedValue.ToString();
             if (TreeViewUpdate.CheckedNodes.Count > 0)
             {
-//                Msg.Text = "Цикл TreeViewUpdate.CheckedNodes.Count";
+                //                Msg.Text = "Цикл TreeViewUpdate.CheckedNodes.Count";
                 for (int i = 0; i < TreeViewUpdate.CheckedNodes.Count; i++)
                 {
                     Msg.Text += " if count";
-                    if (CheckBoxParent.Items.Count==0 )
+                    if (CheckBoxParent.Items.Count == 0)
                     {
-//                        Msg.Text += " UpdateU";
-                        TreeDeviceObjectDataSource.UpdateMethod = "UpdateRecord_Device_list";
-                        TreeDeviceObjectDataSource.UpdateParameters.Clear();
-                        TreeDeviceObjectDataSource.UpdateParameters.Add("ID_NewDevice", TreeViewUpdate.CheckedNodes[i].Value);
-                        TreeDeviceObjectDataSource.UpdateParameters.Add("ID_Device", ID_NewDevice);
-                        TreeDeviceObjectDataSource.Update();
+                        //                        Msg.Text += " UpdateU";
+                        TreeManufactureObjectDataSource.UpdateMethod = "UpdateRecord_Manufacture_list";
+                        TreeManufactureObjectDataSource.UpdateParameters.Clear();
+                        TreeManufactureObjectDataSource.UpdateParameters.Add("ID_NewManufacture", TreeViewUpdate.CheckedNodes[i].Value);
+                        TreeManufactureObjectDataSource.UpdateParameters.Add("ID_Manufacture", ID_NewManufacture);
+                        TreeManufactureObjectDataSource.Update();
                     }
                     else if (CheckBoxParent.Items.Count != 0)
                     {
-             
-//                        Msg.Text += "iNSEERTU";
-                        TreeDeviceObjectDataSource.InsertMethod = "InsertRecord_Device_list";
-                        TreeDeviceObjectDataSource.InsertParameters.Clear();
-                        TreeDeviceObjectDataSource.InsertParameters.Add("ID_NewDevice", TreeViewUpdate.CheckedNodes[i].Value);
-                        TreeDeviceObjectDataSource.InsertParameters.Add("ID_Device", ID_NewDevice);
-                        TreeDeviceObjectDataSource.Insert();
+
+                        //                        Msg.Text += "iNSEERTU";
+                        TreeManufactureObjectDataSource.InsertMethod = "InsertRecord_Manufacture_list";
+                        TreeManufactureObjectDataSource.InsertParameters.Clear();
+                        TreeManufactureObjectDataSource.InsertParameters.Add("ID_NewManufacture", TreeViewUpdate.CheckedNodes[i].Value);
+                        TreeManufactureObjectDataSource.InsertParameters.Add("ID_Manufacture", ID_NewManufacture);
+                        TreeManufactureObjectDataSource.Insert();
                     }
                 }
             }
@@ -345,16 +345,16 @@ namespace AlionaMIKS.Directory
             {
                 if (CheckBoxParent.Items[j].Selected == false)
                 {
-                    TreeDeviceObjectDataSource.DeleteMethod = "DeleteRecord_Device_list";
-                    TreeDeviceObjectDataSource.DeleteParameters.Clear();
-                    TreeDeviceObjectDataSource.DeleteParameters.Add("ID_Device", CheckBoxParent.Items[j].Value);
-                    TreeDeviceObjectDataSource.DeleteParameters.Add("ID_NewDevice", ID_NewDevice);
-                    TreeDeviceObjectDataSource.Delete();
-//                    Msg.Text += " Delete";
+                    TreeManufactureObjectDataSource.DeleteMethod = "DeleteRecord_Manufacture_list";
+                    TreeManufactureObjectDataSource.DeleteParameters.Clear();
+                    TreeManufactureObjectDataSource.DeleteParameters.Add("ID_Manufacture", CheckBoxParent.Items[j].Value);
+                    TreeManufactureObjectDataSource.DeleteParameters.Add("ID_NewManufacture", ID_NewManufacture);
+                    TreeManufactureObjectDataSource.Delete();
+                    //                    Msg.Text += " Delete";
                 }
             }
-//            ModalPopupExtender1.Show();
-            TreeView1.Nodes.Clear();   
+            //            ModalPopupExtender1.Show();
+            TreeView1.Nodes.Clear();
             PopulateRootLevel();
         }
         protected void DataSource_OnDeleted(object sender, ObjectDataSourceStatusEventArgs e)
@@ -370,7 +370,7 @@ namespace AlionaMIKS.Directory
 
         protected void UpdateSparse_ItemInserted(object sender, DetailsViewInsertedEventArgs e)
         {
-    //        SparesGridView.DataBind();
+            //        SparesGridView.DataBind();
         }
         protected void UpdateSparse_ItemInserting(object sender, DetailsViewInsertEventArgs e)
         {
@@ -384,7 +384,7 @@ namespace AlionaMIKS.Directory
         }
         protected void UpdateSparse_ItemUpdated(object sender, DetailsViewUpdatedEventArgs e)
         {
-      //      SparesGridView.DataBind();
+            //      SparesGridView.DataBind();
         }
         protected void UpdateSparse_ItemUpdating(object sender, DetailsViewUpdateEventArgs e)
         {
@@ -398,7 +398,7 @@ namespace AlionaMIKS.Directory
         }
         protected void UpdateSparse_ItemDeleted(object sender, DetailsViewDeletedEventArgs e)
         {
-        //    SparesGridView.DataBind();
+            //    SparesGridView.DataBind();
         }
         // работа с картинками
         protected void LWImage_SelectedIndexChanged(Object sender, EventArgs e)
@@ -418,16 +418,16 @@ namespace AlionaMIKS.Directory
         }
         protected void Image_OnInserted(Object sender, EventArgs e)
         {
-            string ID_Table = GridDevice.SelectedValue.ToString();
+            string ID_Table = GridManufacture.SelectedValue.ToString();
             string strFileName = ImageFile.PostedFile.ContentType;
             strFileName = System.IO.Path.GetFileName(strFileName);
-            ImageFile.PostedFile.SaveAs(Server.MapPath("../Image_Data/") + strFileName);
-            string photoFilePath = Server.MapPath("../Image_Data/") + strFileName;
+            ImageFile.PostedFile.SaveAs(Server.MapPath("../Image_Data/") + "Temp." + strFileName);
+            string photoFilePath = Server.MapPath("../Image_Data/") + "Temp." + strFileName;
             ImageObjectDataSource.InsertParameters.Clear();
             ImageObjectDataSource.InsertParameters.Add("ID_Table", ID_Table);
             ImageObjectDataSource.InsertParameters.Add("fileType", strFileName);
             ImageObjectDataSource.InsertParameters.Add("photoFilePath", photoFilePath);
-            ImageObjectDataSource.InsertParameters.Add("NameTable", "Device");
+            ImageObjectDataSource.InsertParameters.Add("NameTable", "Manufacture");
             ImageObjectDataSource.Insert();
         }
         protected void ImageDataSource_OnDeleted(object sender, ObjectDataSourceStatusEventArgs e)
@@ -440,10 +440,10 @@ namespace AlionaMIKS.Directory
         {
             string photoFilePath = Server.MapPath("../Image_Data/");
             ObjectDataTempGrig.SelectParameters.Clear();
-            ObjectDataTempGrig.SelectParameters.Add("NameTable", "Device");
-            ObjectDataTempGrig.SelectParameters.Add("ID_Table", GridDevice.DataKeys[GridDevice.SelectedIndex].Values[1].ToString());
+            ObjectDataTempGrig.SelectParameters.Add("NameTable", "Manufacture");
+            ObjectDataTempGrig.SelectParameters.Add("ID_Table", GridManufacture.DataKeys[GridManufacture.SelectedIndex].Values[1].ToString());
 
-            MapText.Text = GridDevice.Rows[GridDevice.SelectedIndex].Cells[2].Text;
+            MapText.Text = GridManufacture.Rows[GridManufacture.SelectedIndex].Cells[2].Text;
             //      GridView TempGrid = new GridView();
             TempGrid.DataSourceID = "ObjectDataTempGrig";
             TempGrid.DataKeyNames = new string[] { "ID_Table", "ID_Files", "fileName", "fileType" };
@@ -519,8 +519,8 @@ namespace AlionaMIKS.Directory
             ImageFilesObjectDataSource.InsertParameters.Add("ID_Files", TempGrid.DataKeys[0].Values[1].ToString());
 
             ImageFilesObjectDataSource.InsertParameters.Add("AlternateText", MapText.Text.ToString());
-            ImageFilesObjectDataSource.InsertParameters.Add("ID_UrlTable", GridDevice.SelectedValue.ToString());
-            ImageFilesObjectDataSource.InsertParameters.Add("NameUrlTable", "Device");
+            ImageFilesObjectDataSource.InsertParameters.Add("ID_UrlTable", GridManufacture.SelectedValue.ToString());
+            ImageFilesObjectDataSource.InsertParameters.Add("NameUrlTable", "Manufacture");
             ImageFilesObjectDataSource.Insert();
             ImageChildren.DataBind();
             ImgMapOne.HotSpots.Clear();
