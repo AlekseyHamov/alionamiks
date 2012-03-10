@@ -64,8 +64,10 @@
     <Content Include="Directory\Unit.aspx" />
     <Content Include="Directory\Machine.aspx" />
     <Content Include="Directory\Manufacture.aspx" />
-    <Content Include="Docs\claim.aspx" />
+    <Content Include="Directory\UpdateOperts.aspx" />
+    <Content Include="Docs\Timing.aspx" />
     <Content Include="Docs\MapClaim.aspx" />
+    <Content Include="Docs\UpdateTiming.aspx" />
     <Content Include="Image\calendar.png" />
     <Content Include="Image\calendar_01.png" />
     <Content Include="Image\Change.ico" />
@@ -139,6 +141,7 @@
     <Content Include="App_code\ObjectDataUnit.cs" />
     <Content Include="App_code\ObjectDataMachine.cs" />
     <Content Include="App_code\ObjectDataManufacture.cs" />
+    <Content Include="App_code\ObjectDataTiming.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -181,12 +184,19 @@
     <Compile Include="Directory\Manufacture.aspx.designer.cs">
       <DependentUpon>Manufacture.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Docs\claim.aspx.cs">
-      <DependentUpon>claim.aspx</DependentUpon>
+    <Compile Include="Directory\UpdateOperts.aspx.cs">
+      <DependentUpon>UpdateOperts.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Docs\claim.aspx.designer.cs">
-      <DependentUpon>claim.aspx</DependentUpon>
+    <Compile Include="Directory\UpdateOperts.aspx.designer.cs">
+      <DependentUpon>UpdateOperts.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Docs\Timing.aspx.cs">
+      <DependentUpon>Timing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Docs\Timing.aspx.designer.cs">
+      <DependentUpon>Timing.aspx</DependentUpon>
     </Compile>
     <Compile Include="Docs\MapClaim.aspx.cs">
       <DependentUpon>MapClaim.aspx</DependentUpon>
@@ -194,6 +204,13 @@
     </Compile>
     <Compile Include="Docs\MapClaim.aspx.designer.cs">
       <DependentUpon>MapClaim.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Docs\UpdateTiming.aspx.cs">
+      <DependentUpon>UpdateTiming.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Docs\UpdateTiming.aspx.designer.cs">
+      <DependentUpon>UpdateTiming.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

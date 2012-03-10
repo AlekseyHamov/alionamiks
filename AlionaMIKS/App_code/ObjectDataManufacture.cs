@@ -40,7 +40,8 @@ namespace Samples.AspNet.ObjectDataManufacture
         {
             VerifySortColumns(sortColumns);
 
-            string sqlCmd = " SELECT distinct Manufacture.ID_Manufacture,Manufacture_list.Manufacture as Parent_ID, Manufacture.NameManufacture, Manufacture.Description, Manufacture.ID_Unit, Unit.NameUnit, Manufacture.CheckLog " +
+            string sqlCmd = " SELECT distinct Manufacture.ID_Manufacture, Manufacture_list.Manufacture as Parent_ID, "+
+                " Manufacture.NameManufacture, Manufacture.Description, Manufacture.ID_Unit, Unit.NameUnit, Manufacture.CheckLog " +
                 " FROM Manufacture " +
                 " Left join Unit on Unit.ID_Unit=Manufacture.ID_Unit " +
                 " Left join Manufacture_list on Manufacture_list.Manufacture_Spares=Manufacture.ID_Manufacture ";
@@ -70,6 +71,7 @@ namespace Samples.AspNet.ObjectDataManufacture
             DataSet ds = new DataSet();
             try
             {
+                maxRecords = 1;
                 conn.Open();
                 da.Fill(ds, startRecord, maxRecords, "Manufacture");
             }
@@ -97,6 +99,54 @@ namespace Samples.AspNet.ObjectDataManufacture
                 " Left join Manufacture_list on Manufacture_list.Manufacture_Spares=Manufacture.ID_Manufacture ";
 
             sqlCmd += " where 1=1 and Manufacture_list.Manufacture is null ";
+            try
+            {
+                if (str_ID.Trim() != "")
+                { sqlCmd += " and Manufacture.ID_Manufacture in ( " + str_ID + " ) "; }
+            }
+            catch { }
+            try
+            {
+                if (ID_Unit.Trim() != "")
+                { sqlCmd += " and Manufacture.ID_Unit=" + ID_Unit + " "; }
+            }
+            catch { }
+
+            SqlConnection conn = new SqlConnection(_connectionString);
+            SqlDataAdapter da = new SqlDataAdapter(sqlCmd, conn);
+
+            DataSet ds = new DataSet();
+            try
+            {
+                conn.Open();
+                da.Fill(ds, "Manufacture");
+            }
+            catch (SqlException e)
+            {
+                // Handle exception.
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds.Tables["Manufacture"];
+
+        }
+        public DataTable GetManufactureImage(string str_ID, string ID_Unit, int ID_Operts)
+        {
+            string sqlCmd = " SELECT distinct Manufacture.ID_Manufacture,Manufacture_list.Manufacture as Parent_ID, " +
+            " Manufacture.NameManufacture, Manufacture.Description, Manufacture.ID_Unit, Unit.NameUnit, Manufacture.CheckLog, " +
+            " fr.ID, fr.ID_files, fr.ID_Table, fr.NameTable, f.fileName, f.fileType, " +
+            " Cast(case when ol.ID_List_Operts >0 then 'True' else 'False' end as bit)  as Oplist " +
+            " FROM Manufacture " +
+            " Left join FilesRelation as fr on fr.NameTable ='Manufacture' and fr.ID_Table=Manufacture.ID_Manufacture " +
+            " Left join Files as f on f.ID=fr.ID_files " +
+            " Left join Unit on Unit.ID_Unit=Manufacture.ID_Unit " +
+            " Left join Manufacture_list on Manufacture_list.Manufacture_Spares=Manufacture.ID_Manufacture "+
+            " Left join Operts_list as ol on ol.ID_Link=Manufacture.ID_Manufacture and ol.Link_NameTable= 'Manufacture' and ol.ID_Operts in ("+ ID_Operts+") " ;
+
+            sqlCmd += " where 1=1 and Manufacture_list.Manufacture is not null ";
             try
             {
                 if (str_ID.Trim() != "")

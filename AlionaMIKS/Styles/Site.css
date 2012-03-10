@@ -9,6 +9,13 @@ body
     margin: 0px;
     padding: 0px;
     color: #696969;
+    background-image:URL(/Miks.jpg)
+}
+bodys   
+{
+    background-image:URL(/Map_Image/OKB_ALL.jpg); 
+    background-position:left;  
+    background-repeat:repeat;  
 }
 
 a:link, a:visited
@@ -88,10 +95,11 @@ first child of the left and right table columns */
 
 .page
 {
-    width: 960px;
+    width: 85%;
     background-color: #fff;
     margin: 20px auto 0px auto;
     border: 1px solid #496077;
+    filter:alpha(opacity=87);
 }
 
 .header
@@ -118,7 +126,7 @@ first child of the left and right table columns */
 {
     padding: 0px 12px;
     margin: 12px 8px 8px 8px;
-    min-height: 420px;
+    min-height: 450px;
 }
 
 .leftCol

@@ -47,7 +47,7 @@ namespace Samples.AspNet.ObjectDataOperts
         {
             VerifySortColumns(sortColumns);
 
-            string sqlCmd = "SELECT ID_Operts, NameOperts, MapMain FROM Operts  ";
+            string sqlCmd = "SELECT ID_Operts, NameOperts, MapMain FROM Operts ";
 
             if (sortColumns.Trim() == "")
                 sqlCmd += "ORDER BY ID_Operts";
@@ -64,6 +64,78 @@ namespace Samples.AspNet.ObjectDataOperts
                 conn.Open();
 
                 da.Fill(ds, startRecord, maxRecords, "Operts");
+            }
+            catch (SqlException e)
+            {
+                // Handle exception.
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds.Tables["Operts"];
+        }
+        public DataTable GetAllsOperts(int ID_Operts, string ID_Manufacture)
+        {
+            string sqlCmd = "SELECT distinct o.ID_Operts as ID_Operts , o.NameOperts, o.MapMain,  " +
+                            " Cast(case when o.ChecOperts >0 then 'True' else 'False' end as bit)  as ChecOperts " +
+                            " FROM Operts o "+
+                            " Left join Operts_List as ol on o.ID_Operts=ol.ID_Operts and ol.Link_NameTable='Manufacture' "+
+                            " Left join Manufacture as m on ol.ID_Link= m.ID_Manufacture " ;
+            sqlCmd += " where 1=1 and o.ChecOperts=1 ";
+            if (ID_Operts != 0)
+            { sqlCmd += " and o.ID_Operts<>@ID_Operts "; }
+            if (ID_Manufacture != null)
+            { sqlCmd += " and m.ID_Manufacture in ( "+ID_Manufacture+" ) "; }
+
+            sqlCmd += " ORDER BY o.ID_Operts ";
+
+            SqlConnection conn = new SqlConnection(_connectionString);
+            SqlDataAdapter da = new SqlDataAdapter(sqlCmd, conn);
+
+            da.SelectCommand.Parameters.Add("@ID_Operts", SqlDbType.Int).Value = ID_Operts;
+//            if (ID_Manufacture != null)
+//            { da.SelectCommand.Parameters.Add("@ID_Manufacture", SqlDbType.VarChar, 50).Value = ID_Manufacture; }
+            DataSet ds = new DataSet();
+
+            try
+            {
+                conn.Open();
+
+                da.Fill(ds, "Operts");
+            }
+            catch (SqlException e)
+            {
+                // Handle exception.
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds.Tables["Operts"];
+        }
+
+        public DataTable GetOneOperts(int ID_Operts)
+        {
+            string sqlCmd = "SELECT ID_Operts, NameOperts, MapMain,  "+
+                            " Cast(case when ChecOperts >0 then 'True' else 'False' end as bit)  as ChecOperts , ID_Operts_Group " +
+                            " FROM Operts  ";
+            sqlCmd += " where ID_Operts=@ID_Operts ";
+            sqlCmd += " ORDER BY ID_Operts";
+
+            SqlConnection conn = new SqlConnection(_connectionString);
+            SqlDataAdapter da = new SqlDataAdapter(sqlCmd, conn);
+            
+            da.SelectCommand.Parameters.Add("@ID_Operts", SqlDbType.Int).Value = ID_Operts;
+            DataSet ds = new DataSet();
+
+            try
+            {
+                conn.Open();
+
+                da.Fill(ds,  "Operts");
             }
             catch (SqlException e)
             {
@@ -133,7 +205,6 @@ namespace Samples.AspNet.ObjectDataOperts
 
             return result;
         }
-
 
         //////////
         // Verify that only valid columns are specified in the sort expression to avoid a SQL Injection attack.
@@ -217,21 +288,49 @@ namespace Samples.AspNet.ObjectDataOperts
 
             return result;
         }
+        public int DeleteOpertsCheck(int ID_Operts, int ID_Link, string Link_NameTable)
+        {
+            SqlConnection conn = new SqlConnection(_connectionString);
+            SqlCommand cmd = new SqlCommand("DELETE FROM Operts_List WHERE ID_Operts = @ID_Operts and ID_Link=@ID_Link and Link_NameTable=@Link_NameTable ", conn);
+            cmd.Parameters.Add("@ID_Operts", SqlDbType.Int).Value = ID_Operts;
+            cmd.Parameters.Add("@ID_Link", SqlDbType.Int).Value = ID_Link;
+            cmd.Parameters.Add("@Link_NameTable", SqlDbType.VarChar, 50).Value = Link_NameTable;
+            int result = 0;
+
+            try
+            {
+                conn.Open();
+
+                result = cmd.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                // Handle exception.
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return result;
+        }
 
 
         // Update the Otdelen by original ID_Otdelen.
 
-        public int UpdateOperts(int ID_Operts, string NameOperts)
+        public int UpdateOperts(int ID_Operts, string NameOperts, int ChecOperts, int ID_Operts_Group)
         {
             if (String.IsNullOrEmpty(NameOperts))
                 throw new ArgumentException("FirstName cannot be null or an empty string.");
 
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand("UPDATE Operts " +
-                                                "  SET NameOperts=@NameOperts" +
+                                                "  SET NameOperts=@NameOperts , ChecOperts=@ChecOperts, ID_Operts_Group=@ID_Operts_Group" +
                                                  "  WHERE ID_Operts=@ID_Operts", conn);
 
             cmd.Parameters.Add("@NameOperts", SqlDbType.VarChar, 50).Value = NameOperts;
+            cmd.Parameters.Add("@ChecOperts", SqlDbType.Int).Value = ChecOperts;
+            cmd.Parameters.Add("@ID_Operts_Group", SqlDbType.Int).Value = ID_Operts_Group;
             cmd.Parameters.Add("@ID_Operts", SqlDbType.Int).Value = ID_Operts;
 
             int result = 0;
@@ -255,7 +354,7 @@ namespace Samples.AspNet.ObjectDataOperts
         }
         // Insert an Otdelen.
 
-        public int InsertOperts(string NameOperts)
+        public int InsertOperts(string NameOperts, int ChecOperts)
 
         {
             if (String.IsNullOrEmpty(NameOperts))
@@ -263,12 +362,47 @@ namespace Samples.AspNet.ObjectDataOperts
 
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand("INSERT INTO Operts " +
-                                                "  (NameOperts) " +
-                                                "  Values(@NameOperts); " +
+                                                "  (NameOperts , ChecOperts) " +
+                                                "  Values(@NameOperts, @ChecOperts); " +
                                                 "SELECT @ID_Operts = SCOPE_IDENTITY()", conn);
-
-            cmd.Parameters.Add("@NameOperts", SqlDbType.VarChar, 50).Value = NameOperts;
+            cmd.Parameters.Add("@NameOperts", SqlDbType.VarChar, 150).Value = NameOperts;
+            cmd.Parameters.Add("@ChecOperts", SqlDbType.Int).Value = ChecOperts;
             SqlParameter p = cmd.Parameters.Add("@ID_Operts", SqlDbType.Int);
+            p.Direction = ParameterDirection.Output;
+
+            int newID_Operts = 0;
+
+            try
+            {
+                conn.Open();
+
+                cmd.ExecuteNonQuery();
+
+                newID_Operts = (int)p.Value;
+            }
+            catch (SqlException e)
+            {
+                // Handle exception.
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return newID_Operts;
+        }
+        public int InsertOpertsCheck(int ID_Operts, int ID_Link, string Link_NameTable)
+        {
+            SqlConnection conn = new SqlConnection(_connectionString);
+            SqlCommand cmd = new SqlCommand("INSERT INTO Operts_List " +
+                                                "  (ID_Operts,ID_Link,Link_NameTable) " +
+                                                "  Values(@ID_Operts, @ID_Link, @Link_NameTable); " +
+                                                "SELECT @ID_List_Operts = SCOPE_IDENTITY()", conn);
+
+            cmd.Parameters.Add("@ID_Operts", SqlDbType.Int).Value = ID_Operts;
+            cmd.Parameters.Add("@ID_Link", SqlDbType.Int).Value = ID_Link;
+            cmd.Parameters.Add("@Link_NameTable", SqlDbType.VarChar, 50).Value = Link_NameTable;
+            SqlParameter p = cmd.Parameters.Add("@ID_List_Operts", SqlDbType.Int);
             p.Direction = ParameterDirection.Output;
 
             int newID_Operts = 0;
@@ -336,7 +470,7 @@ namespace Samples.AspNet.ObjectDataOperts
         }
         // Update the Employee by original ID_Operts.
 
-        public int UpdateOperts(string NameOperts, string original_NameOperts, int original_ID_Operts)
+        public int UpdateOperts(string NameOperts, string original_NameOperts, int original_ID_Operts, int original_ChecOperts, int ChecOperts)
         {
             if (String.IsNullOrEmpty(NameOperts))
                 throw new ArgumentException("FirstName cannot be null or an empty string.");
@@ -345,11 +479,12 @@ namespace Samples.AspNet.ObjectDataOperts
                             "  SET NameOperts = @NameOperts" +
                             "  WHERE ID_Operts = @original_ID_Operts " +
                             " AND NameOperts = @original_NameOperts";
-
+                                                              
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand(sqlCmd, conn);
 
-            cmd.Parameters.Add("@NameOperts", SqlDbType.VarChar, 50).Value = NameOperts;
+            cmd.Parameters.Add("@NameOperts", SqlDbType.VarChar, 150).Value = NameOperts;
+            cmd.Parameters.Add("@ChecOperts", SqlDbType.Int).Value = ChecOperts;
             cmd.Parameters.Add("@original_ID_Operts", SqlDbType.Int).Value = original_ID_Operts;
             cmd.Parameters.Add("@original_NameOperts", SqlDbType.VarChar, 50).Value = original_NameOperts;
 

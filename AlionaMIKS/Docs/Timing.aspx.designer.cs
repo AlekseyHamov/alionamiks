@@ -7,10 +7,10 @@
 // </автоматически создаваемое>
 //------------------------------------------------------------------------------
 
-namespace AlionaMIKS.Directory {
+namespace AlionaMIKS.Doc {
     
     
-    public partial class Operts {
+    public partial class Timing {
         
         /// <summary>
         /// ScriptManager1 элемент управления.
@@ -31,31 +31,22 @@ namespace AlionaMIKS.Directory {
         protected global::System.Web.UI.WebControls.Label Msg;
         
         /// <summary>
-        /// OpertsObjectDataSource элемент управления.
+        /// ClaimObjectDataSource элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource OpertsObjectDataSource;
+        protected global::System.Web.UI.WebControls.ObjectDataSource ClaimObjectDataSource;
         
         /// <summary>
-        /// ObjectDataTempGrig элемент управления.
+        /// GridView элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource ObjectDataTempGrig;
-        
-        /// <summary>
-        /// OpertsGridView элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView OpertsGridView;
+        protected global::System.Web.UI.WebControls.GridView GridView;
         
         /// <summary>
         /// btnEditCustomer элемент управления.

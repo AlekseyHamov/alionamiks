@@ -90,54 +90,7 @@
         </tr>
         <tr>
           <td>
-           <asp:Button ID="btnEditCustomer" runat="server" Text="Добавить" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <asp:Panel ID="UpdatePanel" runat="server"  
-                  BackColor="#ffffff">
-                  <div style="display:inline" >
-                    <div style="text-align:left; float:left">
-                          <asp:Label ID="Label3" runat="server" Text="Редактирование операции"></asp:Label>
-                    </div>
-                    <div style="text-align:right">
-                          <asp:ImageButton ID="editBox_OK" runat="server" ImageUrl= "~/Image/Close.ico" Width="20" Height = "20"  />
-                    </div>
-                  </div>
-
-                  <table>
-                    <tr>
-                        <td align="right" >
-                            <asp:Label ID="Label1" runat="server" Text="Наименование операции"></asp:Label>
-                        </td>
-                        <td align="left">
-                            <asp:TextBox ID="TextBox2"  runat="server" Width="160px"></asp:TextBox>
-                        </td>
-                   </tr>
-                  </table>
-                  <p style="display:inline; float:right">
-                          <asp:Button ID="UpdateButton" runat="server" Text="Обновить" CommandName="Update" 
-                                 OnCommand="CommandBtn_Click" Visible="false"/>
-                          <asp:Button ID="InsertButton" runat="server" Text="Добавить" CommandName="Insert" 
-                                 OnCommand="CommandBtn_Click" />
-                          <asp:Button ID="DeleteButton" runat="server" Text="Удалить" CommandName="Delete" 
-                                 OnCommand="CommandBtn_Click" Visible="false"/>
-                  </p>
-                  </asp:Panel>
-            <asp:Label runat="server" id="aliona" />
-            <asp:ModalPopupExtender ID="ModalPopupExtender1"
-                    runat="server"  
-                    PopupControlID="UpdatePanel"
-                    TargetControlID="btnEditCustomer"
-                    OkControlID="editBox_OK"
-                    BackgroundCssClass = "modalBackground" 
-                    PopupDragHandleControlID = "Редактирование записи" Drag="True"
-                    />
-            <asp:DragPanelExtender ID="UpdatePanel_DragPanelExtender" runat="server" 
-                  DragHandleID="UpdatePanel" Enabled="True" 
-                  TargetControlID="UpdatePanel">
-              </asp:DragPanelExtender>
+           <asp:Button ID="btnEditCustomer" OnClick="GetNextPage"  runat="server" Text="Добавить" />
           </td>
         </tr>
       </table>
