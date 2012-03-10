@@ -24,7 +24,6 @@ namespace AlionaMIKS.Directory
              {
                  case "Update":
                      OpertsObjectDataSource.Update();
-                     InsertButton.Visible = true;
                      break;
                  case "Insert":
                      OpertsObjectDataSource.Insert();
@@ -42,9 +41,6 @@ namespace AlionaMIKS.Directory
          {
              Msg.Text = "";
              Coordinats = new TextBox();
-             UpdateButton.Visible = false;
-             InsertButton.Visible = true;
-             DeleteButton.Visible = false;
          }
          protected void _DetailsView_ItemUpdated(Object sender, DetailsViewUpdatedEventArgs e)
          {
@@ -56,12 +52,8 @@ namespace AlionaMIKS.Directory
          }
          protected void GridView_OnSelectedIndexChanged(object sender, EventArgs e)
          {
-             ModalPopupExtender1.Show();
-             GridViewRow row = OpertsGridView.SelectedRow;
-             TextBox2.Text = row.Cells[2].Text;
-             UpdateButton.Visible = true;
-             InsertButton.Visible = false;
-             DeleteButton.Visible = true;
+             Session["ID_Operts"] = OpertsGridView.SelectedValue.ToString();
+             Server.Transfer("UpdateOperts.aspx", true);
          }
          protected void OpertsDataSource_OnInserted(object sender, ObjectDataSourceStatusEventArgs e)
          {   
@@ -77,7 +69,11 @@ namespace AlionaMIKS.Directory
          {
              if ((int)e.ReturnValue == 0)
                  Msg.Text = "Employee was not deleted. Please try again.";
-
+         }
+         protected void GetNextPage(object sender, System.EventArgs e)
+         {
+             Session["ID_Operts"] = null;
+             Server.Transfer("UpdateOperts.aspx", true);
          }
     }
 }

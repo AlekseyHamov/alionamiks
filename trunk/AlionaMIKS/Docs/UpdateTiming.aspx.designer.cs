@@ -7,10 +7,10 @@
 // </автоматически создаваемое>
 //------------------------------------------------------------------------------
 
-namespace AlionaMIKS.Directory {
+namespace AlionaMIKS.Doc {
     
     
-    public partial class Operts {
+    public partial class UpdateTiming {
         
         /// <summary>
         /// ScriptManager1 элемент управления.
@@ -22,6 +22,15 @@ namespace AlionaMIKS.Directory {
         protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
+        /// ManufactureChecked элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource ManufactureChecked;
+        
+        /// <summary>
         /// Msg элемент управления.
         /// </summary>
         /// <remarks>
@@ -31,39 +40,21 @@ namespace AlionaMIKS.Directory {
         protected global::System.Web.UI.WebControls.Label Msg;
         
         /// <summary>
-        /// OpertsObjectDataSource элемент управления.
+        /// ManufactureScrol элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource OpertsObjectDataSource;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ManufactureScrol;
         
         /// <summary>
-        /// ObjectDataTempGrig элемент управления.
+        /// ManufactureCheckBox элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource ObjectDataTempGrig;
-        
-        /// <summary>
-        /// OpertsGridView элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView OpertsGridView;
-        
-        /// <summary>
-        /// btnEditCustomer элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnEditCustomer;
+        protected global::System.Web.UI.WebControls.ListView ManufactureCheckBox;
     }
 }
